@@ -69,16 +69,11 @@ if __name__=="__main__":
 	for host in hosts:
 		if host:
 			ip, user, passwd, port = host.split(":")
-			p = threading.Thread(target = upload_remote, args = (remote_path, local_path, ip, port, user, passwd, mv, cmd))
-			p.start()
-
-
-
-
-
-
-
-
-
-
+			threads.append(threading.Thread(target = upload_remote, args = (remote_path, local_path, ip, port, user, passwd, mv, cmd)))
+			
+	for t in threads:
+		t.start() #启动所有线程
+	
+	for t in threads:
+		t.join() #主线程中等待所有子线程退出
 
