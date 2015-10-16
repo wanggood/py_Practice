@@ -15,17 +15,19 @@ import calendar
 def day_time(year, month):
 	year = int(year)
 	month = int(month)
-	week_list = (calendar.monthcalendar(year, 1))[0]
-	for i in range(0, 7):
-		if str(week_list[i]) != "0":
-			day_ = week_list[i]
-			break
-	day_start = str(year) + "-" + "01" + "-" + ("0" + str(day_))
+	#week_list = (calendar.monthcalendar(year, 1))[0]
+	#for i in range(0, 7):
+	#	if str(week_list[i]) != "0":
+	#		day_ = week_list[i]
+	#		break
+	
+	day_start = str(year) + "-" + "01" + "-" + "01"
 	day_start = day_start + " " + "23:30:30"
+	i = datetime.datetime(year,1,1).strftime("%w")#算出星期几
 	timearray = time.strptime(day_start, "%Y-%m-%d %H:%M:%S")
 	timestamp = int(time.mktime(timearray))
 	dateArray = datetime.datetime.utcfromtimestamp(timestamp)
-	datelast = dateArray + datetime.timedelta(days=6-i)
+	datelast = dateArray + datetime.timedelta(days=7-int(i))
 	if month == 1:
 		print(month,"周的第一天日期:",dateArray)
 		print(month,"周的最后一天日期:",datelast)
