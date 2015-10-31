@@ -121,24 +121,24 @@ class PFilePath(ProcessEvent):
 	def process_IN_CREATE(self, event):
 		if os.path.splitext(event.name)[1] == ".sql":
 			text = "Create file: %s" % os.path.join(event.path, event.name)
-			#print(text)
+			print(text)
 			back_sql()
 
 	def process_IN_MODIFY(self, event):
 		if os.path.splitext(event.name)[1] == ".sql":
 			text = "Modify file: %s" % os.path.join(event.path, event.name)
-			#print(text)
+			print(text)
 			back_sql()
 
 #------------主监控函数-----------
 def FSMonitor():
 	back_sql()
-	"""
+	
 	wm = WatchManager()
 	mask = IN_CREATE | IN_MODIFY
 	notifier = Notifier(wm, PFilePath())
-	wdd = wm.add_watch(GM_path, mask, rec=True)
-	print("now starting monitor %s" % GM_path)
+	wdd = wm.add_watch(find_path, mask, rec=True)
+	print("now starting monitor %s" % find_path)
 	while True:
 		try:
 			notifier.process_events()
@@ -147,7 +147,7 @@ def FSMonitor():
 		except KeyboardInterrupt:
 			notifier.stop()
 			break
-"""
+
 if __name__=="__main__":
 	FSMonitor()
 
