@@ -18,6 +18,7 @@ import threading
 from subprocess import call
 
 class up_remote:
+	com = 0
 	def __init__(self, remote_file_path, local_file_path, f_size, ip, port, user, passwd):
 		self.remote_file_path = remote_file_path
 		self.local_file_path = local_file_path
@@ -69,7 +70,7 @@ class up_remote:
 		except:
 			print("%s\t %s Command Error\n" % self.ip, cmd)
 			self.Error_log(self.ip, cmd, "command error")
-
+	
 	def Error_log(self, ip, command, reason):
 		error_file = './error.log'
 		com = " ".join(command)
@@ -81,19 +82,24 @@ class up_remote:
 		f.close()
 
 if __name__=="__main__":
-	remote_path = '/zywa/test.tar.gz'
-	local_path = '/usr/local/test.tar.gz'
+	remote_path = '/zywa/nginx.tar.gz'
+	local_path = 'nginx.tar.gz'
 	f_size = os.path.getsize(local_path)
 	cmd = ['cd /zywa/ ; \
-			tar -zxvf test.tar.gz ;'
+			tar -zxvf nginx.tar.gz ; ',
+			'groupadd -r nginx ; \
+			useradd -s /sbin/lologin -g nginx -r nginx ;',
+			'mkdir /data ;',
+			'mv /zywa/libluajit-5.1.so.2 /usr/lib64/ ;',
+			'/zywa/nginx/sbin/nginx ;'
 		  ]
-	bak_mkdir = ['cd / ; mkdir zywa ; \
-		  cd /zywa/ ; mv test test_bak ; \
-		  mv test.tar.gz test.tar.gz.bak ; '
+	bak_mkdir = ['mkdir /zywa ; \
+		  cd /zywa/ ; mv nginx nginx_bak ; \
+		  mv nginx.tar.gz nginx.tar.gz.bak ; '
 		 ]
 	
 	hosts = open("linux_server.list")
-	threads = []   #使用线程
+	threads = []   #使用线程池
 	for host in hosts:
 		if host:
 			ip, user, passwd, port = host.split(":")
