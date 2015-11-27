@@ -31,6 +31,7 @@ class up_remote:
 	def upload_remote(self, bak_mkdir, cmd):
 		if bak_mkdir:
 			self.command(bak_mkdir)
+		
 		try:
 			up = paramiko.Transport(self.ip, int(self.port))
 			up.connect(username = self.user, password = self.passwd)
@@ -40,9 +41,11 @@ class up_remote:
 			print("%s Upload Ok,\n" % self.ip)
 		except:
 			print("%s Upload Error\n" % self.ip)
+
 			self.Error_log(self.ip, [], "upload error")
 		com, file_size = self.command(['ls -al ' + self.remote_file_path])
 		com.close()
+
 		if int(file_size) == int(self.f_size):
 			self.command(cmd)
 		else:
@@ -91,6 +94,7 @@ if __name__=="__main__":
 			useradd -s /sbin/lologin -g nginx -r nginx ;',
 			'mkdir /data ;',
 			'mv /zywa/libluajit-5.1.so.2 /usr/lib64/ ;',
+			'mv /zywa/libpcre.so.0 /lib64/ ;',
 			'/zywa/nginx/sbin/nginx ;'
 		  ]
 	bak_mkdir = ['mkdir /zywa ; \
@@ -100,6 +104,7 @@ if __name__=="__main__":
 	
 	hosts = open("linux_server.list")
 	threads = []   #使用线程池
+	
 	for host in hosts:
 		if host:
 			ip, user, passwd, port = host.split(":")
@@ -109,6 +114,7 @@ if __name__=="__main__":
 	for t in threads:
 		t.setDaemon(True)
 		t.start() #启动所有线程
+	
 	for t in threads:
 		t.join() #主(父)线程中等待所有子线程退出
 	hosts.close()
