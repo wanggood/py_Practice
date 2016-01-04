@@ -113,8 +113,9 @@ if __name__=="__main__":
 			
 	for t in threads:
 		t.setDaemon(True)
-		t.start() #启动所有线程
+		t.start() #启动所有线程#
 	
 	for t in threads:
 		t.join() #主(父)线程中等待所有子线程退出
 	hosts.close()
+
