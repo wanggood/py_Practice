@@ -29,9 +29,9 @@ class py_mysql:
 
 	def SignIn(self):
 		db = pymysql.connect(host=ip,user=user,password=passwd,db='wang',port=int(port),charset='utf8mb4')
-		cursor = db.cursor()
+		cursor = db.cursor() #获取操作游标
 		cursor.execute(self.mysql_command)
-		results = cursor.fetchall() #获取所有记录列表
+        results = cursor.fetchall() #获取所有记录列表
 		#for row in results:
 		#	print(row)
 		#print(results[1][0])

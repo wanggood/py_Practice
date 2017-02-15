@@ -32,7 +32,7 @@ if __name__=='__main__':
 			mail_pass = ''.join(mail_pass) #将列表转为字符串
 	else:
 		print("open email_password Error!")
-		os.exit(0)
+		sys.exit()
 
 #----------这是一个带html格式的邮件-------
 	theme = "jingang" + "<" + sender + ">"
